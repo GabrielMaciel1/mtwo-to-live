@@ -4,19 +4,15 @@ import {
   Text,
   StyleSheet,
   Image,
+  Pressable,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { RouteProp } from '@react-navigation/native';
+
+
 
 import { FontAwesome6 } from '@expo/vector-icons';
-
+import { NativeStackNavigationProp } from 'react-native-screens/lib/typescript/native-stack/types';
 import { RootStackParamList } from 'navigation';
-
-type DetailsScreenRouteProp = RouteProp<RootStackParamList, 'Details'>;
-
-interface Props {
-  route: DetailsScreenRouteProp;
-}
 
 const getImageSource = (id: string) => {
   const imageSources: Record<string, JSX.Element> = {
@@ -29,26 +25,36 @@ const getImageSource = (id: string) => {
   return imageSources[id];
 };
 
-const Card = ({ data }: any) => (
-  <View style={styles.card}>
-    {getImageSource(data.id)}
-    <View style={styles.content}>
-      <View style={styles.badgeContainer}>
-        <View  style={styles.badge}>
-          <Text style={styles.badgeText}>{data.imovelType}</Text>
+type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'Details'>;
+
+const Card = ({ data }: { data: any }) => {
+  const navigation = useNavigation<NavigationProp>();
+
+  const handlePress = () => {
+    navigation.navigate('Details', { data });
+  };
+
+  return (
+    <Pressable onPress={handlePress} style={styles.card}>
+      {getImageSource(data.id)}
+      <View style={styles.content}>
+        <View style={styles.badgeContainer}>
+          <View style={styles.badge}>
+            <Text style={styles.badgeText}>{data.imovelType}</Text>
+          </View>
+          <Text style={styles.price}>
+            {data.tipo === 'Venda' ? `R$ ${data.preco.toLocaleString()}` : `R$ ${data.preco.toLocaleString()} / mês`}
+          </Text>
         </View>
-        <Text style={styles.price}>
-          {data.tipo === 'Venda' ? `R$ ${data.preco.toLocaleString()}` : `R$ ${data.preco.toLocaleString()} / mês`}
-        </Text>
+        <Text style={styles.title}>{data.titulo}</Text>
+        <View style={{ flexDirection: 'row', gap: 5, marginBottom: 5, marginTop: 5 }}>
+          <FontAwesome6 name="location-dot" size={20} />
+          <Text>{`${data.endereco.bairro} - ${data.endereco.cidade}`}</Text>
+        </View>
       </View>
-      <Text style={styles.title}>{data.titulo}</Text>
-      <View style={{flexDirection: 'row', gap: 5, marginBottom: 5, marginTop: 5}}>
-      <FontAwesome6 name="location-dot" size={20} />
-      <Text>{`${data.endereco.bairro} - ${data.endereco.cidade}`}</Text>
-      </View>
-    </View>
-  </View>
-);
+    </Pressable>
+  );
+};
 
 const styles = StyleSheet.create({
   card: {
