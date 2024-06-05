@@ -1,12 +1,12 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-
-import TabNavigator from './tab-navigator';
-import Modal from '../screens/modal';
+import TabLayout from './tab-navigator';
+import DetailsScreen from 'components/DetailsScreen/DetailsScreen';
+import { Property } from 'types/types';
 
 export type RootStackParamList = {
   TabNavigator: undefined;
-  Modal: undefined;
+  Details: { data: Property };
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -17,13 +17,13 @@ export default function RootStack() {
       <Stack.Navigator initialRouteName="TabNavigator">
         <Stack.Screen
           name="TabNavigator"
-          component={TabNavigator}
+          component={TabLayout}
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="Modal"
-          component={Modal}
-          options={{ presentation: 'modal', headerLeft: () => null }}
+          name="Details"
+          component={DetailsScreen}
+          options={{ headerShown: false }}
         />
       </Stack.Navigator>
     </NavigationContainer>
