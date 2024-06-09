@@ -6,6 +6,7 @@ import { RouteProp } from '@react-navigation/native';
 import { FontAwesome, FontAwesome6, MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { RootStackParamList } from 'navigation';
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 
 type DetailsScreenRouteProp = RouteProp<RootStackParamList, 'Details'>;
 
@@ -131,7 +132,60 @@ const DetailsScreen = ({ route }: Props) => {
           <Text>192 m²</Text>
         </View>
       </View>
-      <View style={{width: '90%', borderBottomColor: '#00000', borderWidth: 0.5, marginLeft: 20, marginTop: 20}}/>
+      <View
+        style={{
+          width: '90%',
+          borderBottomColor: '#00000',
+          borderWidth: 0.5,
+          marginLeft: 20,
+          marginTop: 20,
+        }}
+      />
+      <View style={{width: '90%', marginLeft: 20, marginTop: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <Image
+            source={require('assets/perfil.jpeg')}
+            style={{ height: 60, width: 60, borderRadius: 50 }}
+          />
+          <View style={{ marginLeft: 10 }}>
+            <Text style={{ fontWeight: 'bold' }}>Adriano Arnaud</Text>
+            <Text style={{ color: '#000' }}>Profisional</Text>
+          </View>
+        </View>
+
+        <View
+          style={{
+            backgroundColor: '#D9D9D9',
+            borderRadius: 50,
+            height: 38,
+            width: 38,
+            alignItems: 'center',
+            justifyContent: 'center',
+            
+          }}>
+          <MaterialCommunityIcons name="message-processing" size={20} />
+        </View>
+      </View>
+      <View style={{width: '80%', marginLeft: 30, marginTop: 10}}>
+        <Text style={{fontSize: 15, fontWeight: 'bold'}}>Descrição</Text>
+        <Text style={{color: '#7F7E7E'}}>{data.descricao}</Text>
+      </View>
+      <Text style={{fontWeight: 'bold', fontSize: 15, width: '90%', marginLeft: 20, marginTop: 10}}>
+          Localização
+        </Text>
+      <View style={{width: '90%', marginLeft: 20, marginTop: 10, alignItems: 'center'}}>
+      <MapView
+        style={{height: 150, width: '100%'}}
+        // provider={PROVIDER_GOOGLE}
+        initialRegion={{
+          latitude: -23.55052, // Latitude de São Paulo, Brasil
+          longitude: -46.633308, // Longitude de São Paulo, Brasil
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        }}
+      />
+      
+      </View>
     </ScrollView>
   );
 };
