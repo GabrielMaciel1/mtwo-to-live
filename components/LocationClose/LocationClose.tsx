@@ -1,16 +1,15 @@
 import React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import { anotherApi } from 'utils/api';
 import Card from 'components/Card/Card';
 
-const LocationClose = () => (
+const LocationClose = ({locationClose}: any) => (
   <View style={styles.highlightsContainer}>
     <View style={styles.header}>
       <Text style={styles.headerText}>Perto de você</Text>
       <Text style={styles.viewMore}>Ver mais</Text>
     </View>
     <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-      {anotherApi.map((type, index) => (
+      {locationClose.map((type, index) => (
         <View key={type.id} style={{ marginRight: 20, width: 250 }}>
           <Card key={index} data={type} />
         </View>

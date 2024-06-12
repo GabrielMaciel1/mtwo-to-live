@@ -5,7 +5,8 @@ import Card from 'components/Card/Card';
 import { Property } from 'types/types';
 import { highlightStyles } from './highlightStyles';
 
-const Highlights = () => {
+const Highlights = ({highlights}: any) => {
+
   return (
     <View style={highlightStyles.highlightsContainer}>
       <View style={highlightStyles.header}>
@@ -13,7 +14,7 @@ const Highlights = () => {
         <Text style={highlightStyles.viewMore}>Ver mais</Text>
       </View>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        {api.map((type: Property) => (
+        {highlights.map((type: Property) => (
           <View key={type.id} style={{ marginRight: 20, width: 250 }}>
             <Card key={type.id} data={type} />
           </View>
