@@ -13,8 +13,10 @@ const Highlights = () => {
         <Text style={highlightStyles.viewMore}>Ver mais</Text>
       </View>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        {api.map((type: Property, index: number) => (
-          <Card key={index} data={type} />
+        {api.map((type: Property) => (
+          <View key={type.id} style={{ marginRight: 20, width: 250 }}>
+            <Card key={type.id} data={type} />
+          </View>
         ))}
       </ScrollView>
     </View>

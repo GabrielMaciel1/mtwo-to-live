@@ -3,28 +3,24 @@
     "name": "mtwo-to-live",
     "slug": "mtwo-to-live",
     "version": "1.0.0",
-
     "web": {
       "favicon": "./assets/favicon.png"
     },
-
     "experiments": {
       "tsconfigPaths": true
     },
-
     "plugins": [],
-
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-
     "userInterfaceStyle": "light",
-
     "splash": {
       "image": "./assets/logo.jpeg",
       "resizeMode": "contain",
       "backgroundColor": "#BFBFBF"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true
     },
@@ -32,6 +28,12 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#fff"
+      },
+      "package": "com.gabrielmaciel1.mtwotolive"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "b165f732-5b23-4e13-ac0a-1e0f6819cd9e"
       }
     }
   }

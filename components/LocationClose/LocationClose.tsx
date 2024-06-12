@@ -1,41 +1,7 @@
-
 import React from 'react';
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
-
-import { FontAwesome6 } from '@expo/vector-icons';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { anotherApi } from 'utils/api';
-
-const getImageSource = (id: string) => {
-  const imageSources: Record<string, JSX.Element> = {
-    '6': <Image source={require('assets/casa6.jpg')} alt='casa6' style={styles.image} />,
-    '7': <Image source={require('assets/casa7.jpg')} alt='casa7' style={styles.image} />,
-    '8': <Image source={require('assets/casa8.jpg')} alt='casa8' style={styles.image} />,
-    '9': <Image source={require('assets/casa9.jpg')} alt='casa9' style={styles.image} />,
-    '10': <Image source={require('assets/casa10.jpg')} alt='casa10' style={styles.image} />,
-  };
-  return imageSources[id];
-};
-
-const Card = ({ data }: any) => (
-  <View style={styles.card}>
-    {getImageSource(data.id)}
-    <View style={styles.content}>
-      <View style={styles.badgeContainer}>
-        <View  style={styles.badge}>
-          <Text style={styles.badgeText}>{data.imovelType}</Text>
-        </View>
-        <Text style={styles.price}>
-          {data.tipo === 'Venda' ? `R$ ${data.preco.toLocaleString()}` : `R$ ${data.preco.toLocaleString()} / mês`}
-        </Text>
-      </View>
-      <Text style={styles.title}>{data.titulo}</Text>
-      <View style={{flexDirection: 'row', gap: 5, marginBottom: 5, marginTop: 5}}>
-      <FontAwesome6 name="location-dot" size={20} />
-      <Text>{`${data.endereco.bairro} - ${data.endereco.cidade}`}</Text>
-      </View>
-    </View>
-  </View>
-);
+import Card from 'components/Card/Card';
 
 const LocationClose = () => (
   <View style={styles.highlightsContainer}>
@@ -45,7 +11,9 @@ const LocationClose = () => (
     </View>
     <ScrollView horizontal showsHorizontalScrollIndicator={false}>
       {anotherApi.map((type, index) => (
-        <Card key={index} data={type} />
+        <View key={type.id} style={{ marginRight: 20, width: 250 }}>
+          <Card key={index} data={type} />
+        </View>
       ))}
     </ScrollView>
   </View>

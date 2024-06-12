@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image, ScrollView, TouchableWithoutFeedback } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { RouteProp } from '@react-navigation/native';
 
 import { FontAwesome, FontAwesome6, MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { RootStackParamList } from 'navigation';
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import Carousel from 'components/Carousel/Carousel';
 
 type DetailsScreenRouteProp = RouteProp<RootStackParamList, 'Details'>;
 
@@ -14,9 +15,10 @@ interface Props {
   route: DetailsScreenRouteProp;
 }
 
-const DetailsScreen = ({ route }: Props) => {
+const DetailsScreen = () => {
   const [isFavorited, setIsFavorited] = useState(false);
-  const { data } = route.params;
+  const route = useRoute<DetailsScreenRouteProp>();
+  const { data } = route.params || {};
   const navigation = useNavigation();
 
   return (
@@ -35,10 +37,7 @@ const DetailsScreen = ({ route }: Props) => {
           />
         </View>
       </TouchableWithoutFeedback>
-      <Image
-        style={{ width: '100%', height: 270, resizeMode: 'contain' }}
-        source={require('assets/casa2.jpg')}
-      />
+      <Carousel images={data.fotos} />
       <View
         style={{
           flexDirection: 'row',
@@ -52,6 +51,7 @@ const DetailsScreen = ({ route }: Props) => {
             fontSize: 18,
             fontWeight: 'bold',
             marginTop: 5,
+            maxWidth: 250
           }}>
           {data.titulo}
         </Text>
@@ -77,6 +77,18 @@ const DetailsScreen = ({ route }: Props) => {
           </Text>
         </View>
       </View>
+      <View style={{ flexDirection: 'row', marginHorizontal: 10, gap: 5 }}>
+        <Text
+          style={{
+            fontSize: 18,
+            fontWeight: 'bold',
+            color: '#000',
+          }}>
+          {data.tipo === 'Venda'
+            ? `R$ ${data.preco.toLocaleString()}`
+            : `R$ ${data.preco.toLocaleString()} / mês`}
+        </Text>
+      </View>
       <View style={{ flexDirection: 'row', marginHorizontal: 10, marginTop: 10, gap: 5 }}>
         <FontAwesome6 name="location-dot" size={20} />
         <Text>{`${data.endereco.bairro}, ${data.endereco.cidade}`}</Text>
@@ -101,7 +113,7 @@ const DetailsScreen = ({ route }: Props) => {
             }}>
             <FontAwesome name="bed" size={20} />
           </View>
-          <Text>3 Quartos</Text>
+          <Text>{data.quartos} Quartos</Text>
         </View>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
           <View
@@ -115,7 +127,7 @@ const DetailsScreen = ({ route }: Props) => {
             }}>
             <FontAwesome name="bathtub" size={20} />
           </View>
-          <Text>3 Banheiros</Text>
+          <Text>{data.banheiros} Banheiros</Text>
         </View>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
           <View
@@ -129,7 +141,7 @@ const DetailsScreen = ({ route }: Props) => {
             }}>
             <MaterialCommunityIcons name="floor-plan" size={20} />
           </View>
-          <Text>192 m²</Text>
+          <Text>{data.area_m2} m²</Text>
         </View>
       </View>
       <View
@@ -141,8 +153,16 @@ const DetailsScreen = ({ route }: Props) => {
           marginTop: 20,
         }}
       />
-      <View style={{width: '90%', marginLeft: 20, marginTop: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+      <View
+        style={{
+          width: '90%',
+          marginLeft: 20,
+          marginTop: 10,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Image
             source={require('assets/perfil.jpeg')}
             style={{ height: 60, width: 60, borderRadius: 50 }}
@@ -161,31 +181,45 @@ const DetailsScreen = ({ route }: Props) => {
             width: 38,
             alignItems: 'center',
             justifyContent: 'center',
-            
           }}>
           <MaterialCommunityIcons name="message-processing" size={20} />
         </View>
       </View>
-      <View style={{width: '80%', marginLeft: 30, marginTop: 10}}>
-        <Text style={{fontSize: 15, fontWeight: 'bold'}}>Descrição</Text>
-        <Text style={{color: '#7F7E7E'}}>{data.descricao}</Text>
+      <View style={{ width: '80%', marginLeft: 30, marginTop: 10 }}>
+        <Text style={{ fontSize: 15, fontWeight: 'bold' }}>Descrição</Text>
+        <Text style={{ color: '#7F7E7E' }}>{data.descricao}</Text>
       </View>
-      <Text style={{fontWeight: 'bold', fontSize: 15, width: '90%', marginLeft: 20, marginTop: 10}}>
-          Localização
-        </Text>
-      <View style={{width: '90%', marginLeft: 20, marginTop: 10, alignItems: 'center'}}>
-      <MapView
-        style={{height: 150, width: '100%'}}
-        // provider={PROVIDER_GOOGLE}
-        initialRegion={{
-          latitude: -23.55052, // Latitude de São Paulo, Brasil
-          longitude: -46.633308, // Longitude de São Paulo, Brasil
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
-        }}
-      />
-      
+      <Text
+        style={{ fontWeight: 'bold', fontSize: 15, width: '90%', marginLeft: 20, marginTop: 10 }}>
+        Localização
+      </Text>
+      <View style={{ width: '90%', marginLeft: 20, marginTop: 10, alignItems: 'center' }}>
+        <MapView
+          style={{ height: 150, width: '100%', marginTop: 5 }}
+          provider={PROVIDER_GOOGLE}
+          scrollEnabled={false}
+          zoomEnabled={false}
+          pitchEnabled={false}
+          rotateEnabled={false}
+          initialRegion={{
+            latitude: data.localizacao.latitude,
+            longitude: data.localizacao.longitude,
+            latitudeDelta: 0.01,
+            longitudeDelta: 0.01,
+          }}>
+          <Marker
+            coordinate={{
+              latitude: data.localizacao.latitude,
+              longitude: data.localizacao.longitude,
+            }}
+          />
+        </MapView>
       </View>
+      <Text
+        style={{ fontWeight: 'bold', fontSize: 15, width: '90%', marginLeft: 20, marginTop: 10 }}>
+        Detalhes
+      </Text>
+      <View></View>
     </ScrollView>
   );
 };

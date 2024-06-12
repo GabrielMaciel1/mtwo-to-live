@@ -10,13 +10,13 @@ const SearchBar = () => {
       <View style={{justifyContent: 'space-between', width: '89%', flexDirection: 'row', alignItems: 'center', }}>
         <View style={styles.labelAndIcon}>
           <Text style={styles.label}>Localização</Text>
-          <AntDesign name={'down'} size={10} style={styles.icon} />
+          <AntDesign name={'down'} size={10} style={styles.icon} color={'#000'}/>
           
         </View>
-        <MaterialCommunityIcons name={'bell'} size={17} style={styles.icon} />
+        <MaterialCommunityIcons name={'bell'} size={17} style={styles.icon} color={'#000'}/>
       </View>
       <View style={styles.location}>
-        <FontAwesome6 name="location-dot" size={20} />
+        <FontAwesome6 name="location-dot" size={20} color={'#000'}/>
         <Text style={{ fontWeight: 'bold' }}>Fortaleza,CE</Text>
       </View>
       <View style={styles.inputAndIcon}>
@@ -25,8 +25,8 @@ const SearchBar = () => {
           placeholder="Pesquisar"
          
         />
-        <View style={{ alignItems: 'center', width: '10%' }}>
-          <Ionicons name={'filter'} size={25} />
+        <View style={{ alignItems: 'center', width: '10%', marginLeft: 10 }}>
+          <Ionicons name={'filter'} size={25} color={'#000'}/>
         </View>
       </View>
     </View>
@@ -59,7 +59,9 @@ const styles = StyleSheet.create({
   },
   input: {
     borderRadius: 50,
-    width: '100%',
+    width: '80%',
+    backgroundColor: '#fff',
+    paddingLeft: 20
   },
 });
 

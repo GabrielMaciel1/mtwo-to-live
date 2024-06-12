@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 
 export const highlightStyles = StyleSheet.create({
     highlightsContainer: {
-      marginBottom: 20,
+      
     },
     header: {
       flexDirection: 'row',

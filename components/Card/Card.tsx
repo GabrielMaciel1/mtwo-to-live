@@ -10,20 +10,9 @@ import { useNavigation } from '@react-navigation/native';
 
 
 
-import { FontAwesome6 } from '@expo/vector-icons';
+import { FontAwesome6, MaterialCommunityIcons } from '@expo/vector-icons';
 import { NativeStackNavigationProp } from 'react-native-screens/lib/typescript/native-stack/types';
 import { RootStackParamList } from 'navigation';
-
-const getImageSource = (id: string) => {
-  const imageSources: Record<string, JSX.Element> = {
-    '1': <Image source={require('assets/casa.jpg')} alt='casa' style={styles.image} />,
-    '2': <Image source={require('assets/casa2.jpg')} alt='casa1' style={styles.image} />,
-    '3': <Image source={require('assets/casa3.jpg')} alt='casa2' style={styles.image} />,
-    '4': <Image source={require('assets/casa4.jpg')} alt='casa3' style={styles.image} />,
-    '5': <Image source={require('assets/casa5.jpg')} alt='casa4' style={styles.image} />,
-  };
-  return imageSources[id];
-};
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'Details'>;
 
@@ -36,7 +25,14 @@ const Card = ({ data }: { data: any }) => {
 
   return (
     <Pressable onPress={handlePress} style={styles.card}>
-      {getImageSource(data.id)}
+      <View style={styles.favoriteIconContainer}>
+          <MaterialCommunityIcons
+            name={data.isFavorited ? 'heart' : 'heart-outline'}
+            size={24}
+            color={data.isFavorited ? 'red' : 'black'}
+          />
+        </View>
+        <Image source={data.fotos[0]} alt='casa' style={styles.image} />
       <View style={styles.content}>
         <View style={styles.badgeContainer}>
           <View style={styles.badge}>
@@ -60,9 +56,7 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: '#fff',
     borderRadius: 20,
-    marginRight: 30,
     marginBottom: 20,
-    width: 250,
     shadowColor: 'rgb(38, 57, 77)',
     shadowOffset: {
       width: 0,
@@ -100,12 +94,14 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   badge: {
-    borderRadius: 30,
+    borderRadius: 50,
     paddingHorizontal: 15,
     paddingVertical: 5,
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'flex-start',
+    borderColor: '#000',
+    borderWidth: 0.5,
   },
   badgeText: {
     fontSize: 14,
@@ -128,6 +124,18 @@ const styles = StyleSheet.create({
   viewMore: {
     color: '#3185A9',
     fontWeight: 'bold',
+  },
+  favoriteIconContainer: {
+    backgroundColor: '#fff',
+    width: 30,
+    height: 30,
+    borderRadius: 25,
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    top: 15,
+    right: 15,
+    zIndex: 1,
   },
 });
 

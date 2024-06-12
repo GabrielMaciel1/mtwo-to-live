@@ -6,7 +6,7 @@ import Home from "screens/home";
 import Messages from "screens/messages";
 import Profile from "screens/profile";
 import Saved from "screens/saved";
-import Search from "screens/search";
+// import Search from "screens/search";
 
 const iconNames: Record<string, keyof typeof Ionicons['glyphMap']> = {
   index: 'home',
@@ -18,7 +18,7 @@ const iconNames: Record<string, keyof typeof Ionicons['glyphMap']> = {
 
 const WrappedScreen = (Component: React.ComponentType) => (props: any) => {
   return (
-    <View style={styles.container}>
+    <View style={props.route.name === "Messages"  ? {marginTop: 10} : props.route.name === "Profile" ? {marginTop: 0} : styles.container}>
       <Component {...props} />
     </View>
   );
@@ -65,13 +65,13 @@ export default function TabLayout() {
         <Tab.Screen
           name="Messages"
           component={WrappedScreen(Messages)}
-          options={{ headerShown: false }}
+          options={{ headerShown: true}}
         />
-        <Tab.Screen
+        {/* <Tab.Screen
           name="Search"
           component={WrappedScreen(Search)}
           options={{ headerShown: false }}
-        />
+        /> */}
         <Tab.Screen
           name="Profile"
           component={WrappedScreen(Profile)}
